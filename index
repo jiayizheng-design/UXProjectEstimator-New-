@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UX Project Estimator</title>
+    <style>
+        .task-group {
+            margin-bottom: 20px;
+        }
+        .subtask {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>UX Project Estimator</h1>
+    <div>
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" name="projectName">
+    </div>
+
+    <div id="tasks">
+        <h3>Select Tasks:</h3>
+        <div class="task-group">
+            <input type="checkbox" id="userResearch" name="task" value="User Research" onchange="updateSubtasks('userResearchSubtasks', this)">
+            <label for="userResearch">User Research</label>
+            <div id="userResearchSubtasks" class="subtask" style="display:none;">
+                <input type="checkbox" id="userResearchInternal" name="subtask" value="Internal">
+                <label for="userResearchInternal">Internal</label><br>
+                <input type="checkbox" id="userResearchExternal" name="subtask" value="External">
+                <label for="userResearchExternal">External</label><br>
+                <input type="checkbox" id="userResearchAnalyzing" name="subtask" value="Analyzing results">
+                <label for="userResearchAnalyzing">Analyzing results</label>
+            </div>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="journeyMap" name="task" value="Journey Map">
+            <label for="journeyMap">Journey Map</label>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="userFlowDiagrams" name="task" value="User flow diagrams">
+            <label for="userFlowDiagrams">User flow diagrams</label>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="wireframes" name="task" value="Wireframes">
+            <label for="wireframes">Wireframes</label>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="prototype" name="task" value="Prototype">
+            <label for="prototype">Prototype</label>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="conceptTestingMeeting" name="task" value="Concept testing meeting" onchange="updateSubtasks('conceptTestingMeetingSubtasks', this)">
+            <label for="conceptTestingMeeting">Concept testing meeting</label>
+            <div id="conceptTestingMeetingSubtasks" class="subtask" style="display:none;">
+                <input type="checkbox" id="icvReview1" name="subtask" value="ICV review 1">
+                <label for="icvReview1">ICV review 1</label><br>
+                <input type="checkbox" id="implementationReview1" name="subtask" value="Implementation Review 1">
+                <label for="implementationReview1">Implementation Review 1</label>
+            </div>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="usabilityTesting" name="task" value="Usability testing" onchange="updateSubtasks('usabilityTestingSubtasks', this)">
+            <label for="usabilityTesting">Usability testing</label>
+            <div id="usabilityTestingSubtasks" class="subtask" style="display:none;">
+                <input type="checkbox" id="preparingUserTestingScenarios" name="subtask" value="Preparing user testing scenarios">
+                <label for="preparingUserTestingScenarios">Preparing user testing scenarios</label><br>
+                <input type="checkbox" id="conductingUserTestingSessions" name="subtask" value="Conducting user testing sessions">
+                <label for="conductingUserTestingSessions">Conducting user testing sessions</label><br>
+                <input type="checkbox" id="analyzingResult" name="subtask" value="Analyzing result">
+                <label for="analyzingResult">Analyzing result</label>
+            </div>
+        </div>
+
+        <div class="task-group">
+            <input type="checkbox" id="refine" name="task" value="Refine" onchange="updateSubtasks('refineSubtasks', this)">
+            <label for="refine">Refine</label>
+            <div id="refineSubtasks" class="subtask" style="display:none;">
+                <input type="checkbox" id="icvReview2" name="subtask" value="ICV review 2">
+                <label for="icvReview2">ICV review 2</label><br>
+                <input type="checkbox" id="implementationReview2" name="subtask" value="Implementation Review 2">
+                <label for="implementationReview2">Implementation Review 2</label><br>
+                <input type="checkbox" id="makingDesignAdjustments" name="subtask" value="Making design adjustments based on feedback">
+                <label for="makingDesignAdjustments">Making design adjustments based on feedback</label><br>
+                <input type="checkbox" id="designSpecs" name="subtask" value="Design Specs">
+                <label for="designSpecs">Design Specs</label><br>
+                <input type="checkbox" id="signOffMeeting" name="subtask" value="Sign off meeting">
+                <label for="signOffMeeting">Sign off meeting</label>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>Select Size Level:</h3>
+        <input type="radio" id="fewHours" name="sizeLevel" value="0.5">
+        <label for="fewHours">Take a few hours</label><br>
+        <input type="radio" id="oneTwoDays" name="sizeLevel" value="1.5">
+        <label for="oneTwoDays">Take 1-2 days</label><br>
+        <input type="radio" id="severalDays" name="sizeLevel" value="7">
+        <label for="severalDays">Take several days to a week</label><br>
+        <input type="radio" id="oneTwoWeeks" name="sizeLevel" value="14">
+        <label for="oneTwoWeeks">Take 1-2 weeks</label>
+    </div>
+
+    <div>
+        <label for="concurrentWorks">Number of Concurrent Works:</label>
+        <input type="number" id="concurrentWorks" name="concurrentWorks">
+    </div>
+
+    <div>
+        <label for="weeklyMeetingHours">Regular Weekly Meeting Hours:</label>
+        <input type="number" id="weeklyMeetingHours" name="weeklyMeetingHours">
+    </div>
+
+    <button onclick="calculateProjectSize()">Calculate Project Size</button>
+
+    <div id="result">
+        <h3>Result:</h3>
+        <p id="resultText"></p>
+    </div>
+
+</body>
+</html>
