@@ -1,49 +1,66 @@
 
-        function updateSubtasks(subtaskDivId, checkbox) {
-            var subtaskDiv = document.getElementById(subtaskDivId);
-            subtaskDiv.style.display = checkbox.checked ? 'block' : 'none';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskOptions = {
+                'User Research': ['Internal Research', 'External Research', 'Analyzing results'],
+                'Journey Map': ['Journey Map'],
+                'User flow diagrams': ['User flow diagrams'],
+                'Wireframes': ['Wireframes'],
+                'Prototype': ['Prototype'],
+                'Concept testing meeting': ['ICV review 1', 'Implementation Review 1'],
+                'Usability testing': ['Preparing user testing scenarios', 'Conducting user testing sessions', 'Analyzing result'],
+                'Refine': ['ICV review 2', 'Implementation Review 2', 'Making design adjustments based on feedback', 'Design Specs', 'Sign off meeting']
+            };
 
-        function calculateProjectSize() {
-            var totalDays = 0;
-            var selectedTasks = [];
+            const taskCategory = document.getElementById('task-category');
+            const taskOptionsDropdown = document.getElementById('task-options');
+            const sizeLevels = document.getElementById('size-levels');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultDiv = document.getElementById('result');
+            const projectNameDisplay = document.getElementById('project-name-display');
+            const selectedTasksDisplay = document.getElementById('selected-tasks');
+            const totalDaysDisplay = document.getElementById('total-days');
+            const projectSizeDisplay = document.getElementById('project-size');
 
-            var tasks = document.getElementsByName('task');
-            for (var i = 0; i < tasks.length; i++) {
-                if (tasks[i].checked) {
-                    selectedTasks.push(tasks[i].value);
-                    var subtasks = document.getElementsByName('subtask');
-                    for (var j = 0; j < subtasks.length; j++) {
-                        if (subtasks[j].checked && subtasks[j].id.startsWith(tasks[i].id)) {
-                            selectedTasks.push(tasks[i].value + ' - ' + subtasks[j].value);
-                        }
-                    }
+            taskCategory.addEventListener('change', (e) => {
+                const selectedCategory = e.target.value;
+                const options = taskOptions[selectedCategory] || [];
+                taskOptionsDropdown.innerHTML = options.map(option => `<option value="${option}">${option}</option>`).join('');
+                sizeLevels.classList.add('hidden');
+                taskOptionsDropdown.classList.remove('hidden');
+            });
+
+            taskOptionsDropdown.addEventListener('change', () => {
+                sizeLevels.classList.remove('hidden');
+            });
+
+            calculateBtn.addEventListener('click', () => {
+                const projectName = document.getElementById('project-name').value;
+                const selectedTask = taskOptionsDropdown.value;
+                const sizeLevel = document.querySelector('input[name="size-level"]:checked')?.value;
+                const concurrentWorks = parseInt(document.getElementById('concurrent-works').value) || 0;
+                const meetingHours = parseInt(document.getElementById('meeting-hours').value) || 0;
+
+                if (!selectedTask || !sizeLevel) {
+                    alert('Please select a task and size level.');
+                    return;
                 }
-            }
 
-            var sizeLevel = document.querySelector('input[name="sizeLevel"]:checked');
-            if (sizeLevel) {
-                totalDays += parseFloat(sizeLevel.value);
-            }
+                let totalDays = parseFloat(sizeLevel) + (concurrentWorks * 1.5);
+                const weeks = Math.ceil(totalDays / 7);
+                const meetingDays = (weeks * meetingHours) / 8; // Assuming 8 working hours in a day
+                totalDays += meetingDays;
 
-            var concurrentWorks = parseInt(document.getElementById('concurrentWorks').value) || 0;
-            totalDays += concurrentWorks * 1.5;
+                let projectSize = 'Small Project';
+                if (totalDays > 42) {
+                    projectSize = 'Large Project';
+                } else if (totalDays > 21) {
+                    projectSize = 'Medium Project';
+                }
 
-            var weeklyMeetingHours = parseInt(document.getElementById('weeklyMeetingHours').value) || 0;
-            var projectWeeks = totalDays / 5;
-            var totalMeetingDays = (weeklyMeetingHours * projectWeeks) / 8;
-            totalDays += totalMeetingDays;
-
-            var projectSize = '';
-            if (totalDays <= 21) {
-                projectSize = 'Small Project';
-            } else if (totalDays <= 42) {
-                projectSize = 'Medium Project';
-            } else {
-                projectSize = 'Large Project';
-            }
-
-            var projectName = document.getElementById('projectName').value;
-
-            document.getElementById('resultText').innerText = `Project Name: ${projectName}\nEstimated Total Days: ${totalDays.toFixed(2)}\nSelected Tasks: ${selectedTasks.join(', ')}\nProject Size: ${projectSize}`;
-        }
+                resultDiv.classList.remove('hidden');
+                projectNameDisplay.textContent = `Project Name: ${projectName}`;
+                selectedTasksDisplay.textContent = `Selected Task: ${selectedTask}`;
+                totalDaysDisplay.textContent = `Total Estimated Days: ${totalDays.toFixed(1)}`;
+                projectSizeDisplay.textContent = `Project Size: ${projectSize}`;
+            });
+        });
