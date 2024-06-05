@@ -1,67 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UX Project Estimator</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Project Size Calculator</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .container { margin: 20px; }
+  label, input, select, button { margin-top: 10px; display: block; }
+</style>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-4">UX Project Estimator</h1>
-        <form id="estimator-form">
-            <div class="mb-4">
-                <label for="project-name" class="block text-gray-700">Project Name:</label>
-                <input type="text" id="project-name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Process Categories and Tasks:</label>
-                <div class="mt-2">
-                    <select id="task-category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        <option value="" disabled selected>Select a task category</option>
-                        <option value="User Research">User Research</option>
-                        <option value="Journey Map">Journey Map</option>
-                        <option value="User flow diagrams">User flow diagrams</option>
-                        <option value="Wireframes">Wireframes</option>
-                        <option value="Prototype">Prototype</option>
-                        <option value="Concept testing meeting">Concept testing meeting</option>
-                        <option value="Usability testing">Usability testing</option>
-                        <option value="Refine">Refine</option>
-                    </select>
-                </div>
-                <div class="mt-2">
-                    <select id="task-options" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        <option value="" disabled selected>Select a task option</option>
-                    </select>
-                </div>
-            </div>
-            <div id="size-levels" class="mb-4 hidden">
-                <label class="block text-gray-700">Size Level:</label>
-                <div class="mt-2">
-                    <label><input type="radio" name="size-level" value="0.5"> Take a few hours</label>
-                    <label class="ml-4"><input type="radio" name="size-level" value="1.5"> Take 1-2 days</label>
-                    <label class="ml-4"><input type="radio" name="size-level" value="7"> Take several days to a week</label>
-                    <label class="ml-4"><input type="radio" name="size-level" value="14"> Take 1-2 weeks</label>
-                </div>
-            </div>
-            <div class="mb-4">
-                <label for="concurrent-works" class="block text-gray-700">Number of Concurrent Works:</label>
-                <input type="number" id="concurrent-works" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" value="0" min="0">
-            </div>
-            <div class="mb-4">
-                <label for="meeting-hours" class="block text-gray-700">Regular Weekly Meeting Hours:</label>
-                <input type="number" id="meeting-hours" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" value="0" min="0">
-            </div>
-            <button type="button" id="calculate-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600">Calculate Project Size</button>
-        </form>
-        <div id="result" class="mt-6 p-4 bg-gray-200 rounded-md hidden">
-            <h2 class="text-xl font-bold mb-2">Project Summary</h2>
-            <p id="project-name-display"></p>
-            <p id="selected-tasks"></p>
-            <p id="total-days"></p>
-            <p id="project-size"></p>
-        </div>
-    </div>
+<body>
+<div class="container">
+    <h1>UX Project Calculator</h1>
+    <label for="projectName">Project Name:</label>
+    <input type="text" id="projectName">
 
+    <h2>Task Selection</h2>
+    <p>Select tasks and choose the size level:</p>
+    <div id="tasksContainer"></div>
+
+    <label for="concurrentWorks">Number of Concurrent Works:</history>
+    <input type="number" id="concurrentWorks" min="0" value="0">
+
+    <label for="weeklyMeetings">Weekly Meeting Hours:</label>
+    <input type="number" id="weeklyMeetings" min="0" value="0">
+
+    <button onclick="calculateProjectSize()">Calculate Project Size</button>
+
+    <h2>Results</h2>
+    <p id="result"></p>
+</div>
 </body>
 </html>
